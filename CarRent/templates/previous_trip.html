@@ -1,0 +1,38 @@
+{% extends 'extends/navlist.html' %}
+
+
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Previous Trips</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Journey Date</th>
+                <th>Return Date</th>
+                <th>Driver Name</th>
+                <th>Car Name</th>
+                <th>feedback</th>
+            </tr>
+            {% for r in prev %}
+            <tr>
+                <th>{{r.start_date}}</th>
+                <th>{{r.end_date}}</th>
+                <th>{{r.driver}}</th>
+                <th>{{r.car}}</th>
+                {% if not r.feedback %}
+                <th><a href="/review/{{r.id}}"><i class="fa fa-commenting-o" aria-hidden="true"></i></a></th>
+                {% else %}
+                <th>Reviewed</th>
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

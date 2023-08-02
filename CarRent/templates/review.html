@@ -1,0 +1,49 @@
+{% extends 'extends/navlist.html' %}
+
+
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Feedback Form</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="driver_rating">Driver Experience</label>
+            <div class="star-rating">
+                <input type="radio" name="driver_rating" value="1"><i></i>
+                <input type="radio" name="driver_rating" value="2"><i></i>
+                <input type="radio" name="driver_rating" value="3"><i></i>
+                <input type="radio" name="driver_rating" value="4"><i></i>
+                <input type="radio" name="driver_rating" value="5"><i></i>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="car_rating">Car Experience</label>
+            <div class="star-rating">
+                <input type="radio" name="car_rating" value="1"><i></i>
+                <input type="radio" name="car_rating" value="2"><i></i>
+                <input type="radio" name="car_rating" value="3"><i></i>
+                <input type="radio" name="car_rating" value="4"><i></i>
+                <input type="radio" name="car_rating" value="5"><i></i>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="feedback">Feedback</label>
+            <textarea class="form-control" id="feedback" name="feedback" rows="5"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script>
+    // Function to handle star rating selection
+    $(".star-rating input:radio").change(function () {
+        var rating = $(this).val();
+        $(this).closest(".star-rating").find("i").removeClass("selected");
+        $(this).closest(".star-rating").find("input:radio[value=" + rating + "] ~ i").addClass("selected");
+    });
+</script>
+{% endblock %}

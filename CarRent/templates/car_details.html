@@ -1,0 +1,72 @@
+{% extends 'extends/navlist.html' %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Product Image on the Left -->
+        <div class="col-md-6">
+            <img src="{{car.image.url}}" class="img-fluid" alt="Product Image">
+        </div>
+        <!-- Product Details on the Right -->
+        <div class="col-md-6">
+            <h3>{{car.name}}</h3>
+            <p>Price: ${{car.price}}</p>
+            <p>Category: Electronics</p>
+            <p>{{car.description}}</p>
+
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <form method="post">
+        {% csrf_token %}
+        <h2 class="mb-4">Fill up info to rent the car</h2>
+        <div class="form-group">
+            <label for="pickup_date">Pickup Date</label>
+            <input type="date" class="form-control" id="pickup_date" name="pickup_date" required>
+        </div>
+        <div class="form-group">
+            <label for="return_date">Return Date</label>
+            <input type="date" class="form-control" id="return_date" name="return_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="total_price">Total Price</label>
+            <input type="text" class="form-control" id="total_price" name="total_price" readonly>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Rent</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to calculate the difference in days and total price
+        function calculateDays() {
+            const pickupDate = new Date($("#pickup_date").val());
+            const returnDate = new Date($("#return_date").val());
+
+            const timeDifference = returnDate.getTime() - pickupDate.getTime();
+            const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+            if (daysDifference < 0) {
+                $("#total_price").val("Invalid Return Date. Return Date should be after Pickup Date.");
+            } else {
+                const carPrice = {{ car.price }};
+
+            const totalPrice = carPrice * (daysDifference+1);
+            $("#total_price").val(`${totalPrice}`);
+        }
+    }
+
+        // Calculate days on date input change
+        $("#pickup_date, #return_date").on("input", calculateDays);
+
+    // Initial calculation when the page loads
+    calculateDays();
+    });
+</script>
+{% endblock %}
